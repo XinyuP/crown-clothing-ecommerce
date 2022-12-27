@@ -8,6 +8,8 @@ import {
 	createUserDocumentFromAuth,
 } from '../../utils/firebase/firebase.utils';
 
+import SignUpForm from '../../components/sign-up-form/sign-up-form.component';
+
 const SignIn = () => {
 	// useEffect(
 	// 	() => async () => {
@@ -16,8 +18,8 @@ const SignIn = () => {
 	// 			const userDocRef = await createUserDocumentFromAuth(response.user);
 	// 		}
 	// 	},
-	// 	[] 
-	// ); 
+	// 	[]
+	// );
 
 	const logGooglePopupUser = async () => {
 		// whenever you make call to some database, this is going to be async
@@ -45,6 +47,7 @@ const SignIn = () => {
 			{/* <button onClick={signInWithGoogleRedirect}>
 				Sign in with Google Redirect
 			</button> */}
+			<SignUpForm />
 		</div>
 	);
 };
