@@ -1,14 +1,15 @@
 import { initializeApp } from 'firebase/app';
+
 import {
 	getAuth,
 	signInWithRedirect,
 	signInWithPopup,
 	GoogleAuthProvider,
 } from 'firebase/auth';
-import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
+
 // doc - get the document instance
 // getDoc/setDoc - access the data on the document
-
+import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -23,9 +24,8 @@ const firebaseConfig = {
 // Initialize Firebase
 const firebaseApp = initializeApp(firebaseConfig);
 
+// GoogleAuthProvider is a   get from firebase authentication and it is connected to Google auth itself
 const provider = new GoogleAuthProvider();
-// GoogleAuthProvider is a classwe get from firebase authentication and it is connected to Google auth itself
-
 provider.setCustomParameters({
 	prompt: 'select_account',
 });
@@ -38,12 +38,30 @@ export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
 export const db = getFirestore();
 
 export const createUserDocumentFromAuth = async (userAuth) => {
-    const userDocRef = doc(db, 'users', userAuth.uid);
-    console.log(userDocRef);
-    const userSnapshot = await getDoc(userDocRef);
-    console.log(userSnapshot);
-    console.log(userSnapshot.exists());
-}
+	const userDocRef = doc(db, 'users', userAuth.uid);
+	console.log(userDocRef);
+	const userSnapshot = await getDoc(userDocRef); // already pointing to a specific place in a collection
+	console.log(userSnapshot);
+	console.log(userSnapshot.exists());
 
+    
+	// first check if user data exists
+	// if not exists, create the document with the data from user in my collection using userSnapshot
+	if (!userSnapshot.exists()) {
+		const { displayName, email } = userAuth;
+		const createdAt = new Date(); // record when the user is signing in
 
+		try {
+			await setDoc(userDocRef, {
+				displayName,
+				email,
+				createdAt,
+			});
+		} catch (error) {
+			console.log('error creating the user', error.message);
+		}
+	}
 
+	// if exists, return back userDocRef
+	return userDocRef;
+};

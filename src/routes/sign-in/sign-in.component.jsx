@@ -6,8 +6,11 @@ import {
 const SignIn = () => {
 	const logGoogleUser = async () => {
 		// whenever you make call to some database, this is going to be async
-		const response = await signInWithGooglePopup();
-		createUserDocumentFromAuth(response.user);
+		// const response = await signInWithGooglePopup();
+		// const userDocRef = await createUserDocumentFromAuth(response.user);
+
+		const { user } = await signInWithGooglePopup();
+		const userDocRef = await createUserDocumentFromAuth(user);
 	};
 
 	return (
