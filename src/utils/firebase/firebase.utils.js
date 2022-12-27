@@ -25,14 +25,16 @@ const firebaseConfig = {
 const firebaseApp = initializeApp(firebaseConfig);
 
 // GoogleAuthProvider is a   get from firebase authentication and it is connected to Google auth itself
-const provider = new GoogleAuthProvider();
-provider.setCustomParameters({
+const googleProvider = new GoogleAuthProvider();
+googleProvider.setCustomParameters({
 	prompt: 'select_account',
 });
 
 export const auth = getAuth();
 
-export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
+export const signInWithGooglePopup = () => signInWithPopup(auth, googleProvider);
+export const signInWithGoogleRedirect = () => signInWithRedirect(auth, googleProvider);
+
 
 // this is the database we are going to pass, it is directly points to our database inside of console
 export const db = getFirestore();
@@ -44,7 +46,7 @@ export const createUserDocumentFromAuth = async (userAuth) => {
 	console.log(userSnapshot);
 	console.log(userSnapshot.exists());
 
-    
+
 	// first check if user data exists
 	// if not exists, create the document with the data from user in my collection using userSnapshot
 	if (!userSnapshot.exists()) {
