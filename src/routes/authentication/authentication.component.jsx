@@ -9,8 +9,9 @@ import {
 } from '../../utils/firebase/firebase.utils';
 
 import SignUpForm from '../../components/sign-up-form/sign-up-form.component';
+import SignInForm from '../../components/sign-in-form/sign-in-form.component';
 
-const SignIn = () => {
+const Authentication = () => {
 	// useEffect(
 	// 	() => async () => {
 	// 		const response = await getRedirectResult(auth);
@@ -21,14 +22,14 @@ const SignIn = () => {
 	// 	[]
 	// );
 
-	const logGooglePopupUser = async () => {
-		// whenever you make call to some database, this is going to be async
-		// const response = await signInWithGooglePopup();
-		// const userDocRef = await createUserDocumentFromAuth(response.user);
+	// const logGooglePopupUser = async () => {
+	// 	// whenever you make call to some database, this is going to be async
+	// 	// const response = await signInWithGooglePopup();
+	// 	// const userDocRef = await createUserDocumentFromAuth(response.user);
 
-		const { user } = await signInWithGooglePopup();
-		const userDocRef = await createUserDocumentFromAuth(user);
-	};
+	// 	const { user } = await signInWithGooglePopup();
+	// 	const userDocRef = await createUserDocumentFromAuth(user);
+	// };
 
 	// const logGoogleRedirectUser = async () => {
 	// 	// whenever you make call to some database, this is going to be async
@@ -43,13 +44,14 @@ const SignIn = () => {
 	return (
 		<div>
 			<h1>Sign IN</h1>
-			<button onClick={logGooglePopupUser}>Sign in with Google Popup</button>
+			{/* <button onClick={logGooglePopupUser}>Sign in with Google Popup</button>
 			{/* <button onClick={signInWithGoogleRedirect}>
 				Sign in with Google Redirect
-			</button> */}
+			</button> */} 
+			<SignInForm />
 			<SignUpForm />
 		</div>
 	);
 };
 
-export default SignIn;
+export default Authentication;
