@@ -5,6 +5,7 @@ import {
 	signInWithRedirect,
 	signInWithPopup,
 	GoogleAuthProvider,
+	createUserWithEmailAndPassword,
 } from 'firebase/auth';
 
 // doc - get the document instance
@@ -32,20 +33,21 @@ googleProvider.setCustomParameters({
 
 export const auth = getAuth();
 
-export const signInWithGooglePopup = () => signInWithPopup(auth, googleProvider);
-export const signInWithGoogleRedirect = () => signInWithRedirect(auth, googleProvider);
-
+export const signInWithGooglePopup = () =>
+	signInWithPopup(auth, googleProvider);
+export const signInWithGoogleRedirect = () =>
+	signInWithRedirect(auth, googleProvider);
 
 // this is the database we are going to pass, it is directly points to our database inside of console
 export const db = getFirestore();
 
-export const createUserDocumentFromAuth = async (userAuth) => {
+export const createUserDocumentFromAuth = async (userAuth, additionalInformation={displayName: "Blaire"}) => {
+    if (!userAuth) return;
 	const userDocRef = doc(db, 'users', userAuth.uid);
 	console.log(userDocRef);
 	const userSnapshot = await getDoc(userDocRef); // already pointing to a specific place in a collection
 	console.log(userSnapshot);
 	console.log(userSnapshot.exists());
-
 
 	// first check if user data exists
 	// if not exists, create the document with the data from user in my collection using userSnapshot
@@ -57,7 +59,8 @@ export const createUserDocumentFromAuth = async (userAuth) => {
 			await setDoc(userDocRef, {
 				displayName,
 				email,
-				createdAt,
+                createdAt,
+                ...additionalInformation,
 			});
 		} catch (error) {
 			console.log('error creating the user', error.message);
@@ -66,4 +69,10 @@ export const createUserDocumentFromAuth = async (userAuth) => {
 
 	// if exists, return back userDocRef
 	return userDocRef;
+};
+
+export const createAuthUserWithEmailAndPassword = async (email, password) => {
+	if (!email || !password) return;
+
+	return await createUserWithEmailAndPassword(auth, email, password);
 };
