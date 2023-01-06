@@ -41,7 +41,7 @@ export const signInWithGoogleRedirect = () =>
 // this is the database we are going to pass, it is directly points to our database inside of console
 export const db = getFirestore();
 
-export const createUserDocumentFromAuth = async (userAuth, additionalInformation={displayName: "Blaire"}) => {
+export const createUserDocumentFromAuth = async (userAuth, additionalInformation) => {
     if (!userAuth) return;
 	const userDocRef = doc(db, 'users', userAuth.uid);
 	console.log(userDocRef);
