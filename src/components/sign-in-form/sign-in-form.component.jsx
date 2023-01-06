@@ -7,6 +7,7 @@ import {
 } from '../../utils/firebase/firebase.utils';
 import './sign-in-form.styles.scss';
 import Button from '../button/button.component';
+// import { compileString } from 'sass';
 
 const defaultFormFields = {
 	email: '',
@@ -40,9 +41,20 @@ const SignInForm = () => {
 				email,
 				password
 			);
-			console.log(response)
+			console.log(response);
 			resetFormFields();
-		} catch (error) {}
+		} catch (error) {
+			switch (error.code) {
+				case 'auth/wrong-password':
+					alert('incorrect password for email');
+					break;
+				case 'auth/user-not-found':
+					alert('no user associated with this email');
+					break;
+				default:
+					console.log(error);
+			}
+		}
 	};
 
 	const handleChange = (event) => {
@@ -78,7 +90,7 @@ const SignInForm = () => {
 
 				<div className='buttons-container'>
 					<Button type='submit'>Sign In</Button>
-					<Button buttonType='google' onClick={SignInWithGoogle}>
+					<Button type='button' buttonType='google' onClick={SignInWithGoogle}>
 						Google Sign In
 					</Button>
 				</div>
