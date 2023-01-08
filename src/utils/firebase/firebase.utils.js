@@ -5,8 +5,9 @@ import {
 	signInWithRedirect,
 	signInWithPopup,
 	GoogleAuthProvider,
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
+	createUserWithEmailAndPassword,
+	signInWithEmailAndPassword,
+	signOut,
 } from 'firebase/auth';
 
 // doc - get the document instance
@@ -42,8 +43,11 @@ export const signInWithGoogleRedirect = () =>
 // this is the database we are going to pass, it is directly points to our database inside of console
 export const db = getFirestore();
 
-export const createUserDocumentFromAuth = async (userAuth, additionalInformation) => {
-    if (!userAuth) return;
+export const createUserDocumentFromAuth = async (
+	userAuth,
+	additionalInformation
+) => {
+	if (!userAuth) return;
 	const userDocRef = doc(db, 'users', userAuth.uid);
 	console.log(userDocRef);
 	const userSnapshot = await getDoc(userDocRef); // already pointing to a specific place in a collection
@@ -60,8 +64,8 @@ export const createUserDocumentFromAuth = async (userAuth, additionalInformation
 			await setDoc(userDocRef, {
 				displayName,
 				email,
-                createdAt,
-                ...additionalInformation,
+				createdAt,
+				...additionalInformation,
 			});
 		} catch (error) {
 			console.log('error creating the user', error.message);
@@ -78,9 +82,10 @@ export const createAuthUserWithEmailAndPassword = async (email, password) => {
 	return await createUserWithEmailAndPassword(auth, email, password);
 };
 
-
 export const signInAuthUserWithEmailAndPassword = async (email, password) => {
 	if (!email || !password) return;
 
 	return await signInWithEmailAndPassword(auth, email, password);
 };
+
+export const signOutUser = async () => signOut(auth); // return the promise of whatever signOut returns to us
