@@ -1,4 +1,5 @@
-import { useState, useContext } from 'react';
+// import { useState, useContext } from 'react';
+import { useState } from 'react';
 import FormInput from '../form-input/form-input.component';
 import {
 	createAuthUserWithEmailAndPassword,
@@ -6,7 +7,7 @@ import {
 } from '../../utils/firebase/firebase.utils';
 import './sign-up-form.styles.scss';
 import Button from '../button/button.component';
-import { UserContext } from '../../contexts/user.context';
+// import { UserContext } from '../../contexts/user.context';
 
 const defaultFormFields = {
 	displayName: '',
@@ -19,22 +20,19 @@ const SignUpForm = () => {
 	const [formFields, setFormFields] = useState(defaultFormFields);
 	const { displayName, email, password, confirmPassword } = formFields;
 
+	// const { setCurrentUser } = useContext(UserContext);
 
-    const { setCurrentUser } = useContext(UserContext);
+	// console.log(formFields);
+	//  console.log('hit');
 
+	// const val = useContext(UserContext);
+	// SignUpForm hooks in the context
+	// even though we didn't do anything with the value in Context, this component needs to rerun
+	// None of the actual portion of DOM updated
 
-    // console.log(formFields);
-   //  console.log('hit');
-
-
-    // const val = useContext(UserContext);
-    // SignUpForm hooks in the context
-    // even though we didn't do anything with the value in Context, this component needs to rerun 
-    // None of the actual portion of DOM updated
-    
-    // although React rerun the code, it did not rerender anything on the DOM because nothing changes on the DOM
-    // If you have multiple componnets that are all listening to a Context, even though they don't use the actual values, they will rerun 
-    // this could be a problem
+	// although React rerun the code, it did not rerender anything on the DOM because nothing changes on the DOM
+	// If you have multiple componnets that are all listening to a Context, even though they don't use the actual values, they will rerun
+	// this could be a problem
 
 	const resetFormFields = () => {
 		setFormFields(defaultFormFields);
@@ -52,10 +50,10 @@ const SignUpForm = () => {
 			const { user } = await createAuthUserWithEmailAndPassword(
 				email,
 				password
-            );
-            
-            setCurrentUser(user);
-            
+			);
+
+			// setCurrentUser(user);
+
 			await createUserDocumentFromAuth(user, { displayName });
 			resetFormFields();
 		} catch (error) {

@@ -8,6 +8,9 @@ import {
 	createUserWithEmailAndPassword,
 	signInWithEmailAndPassword,
 	signOut,
+	onAuthStateChanged,
+	// this returns back an observable listener is a way for us to hook into some kind of stream of events whether sign in/out
+	// we are able to trigger something based on the changes
 } from 'firebase/auth';
 
 // doc - get the document instance
@@ -49,10 +52,11 @@ export const createUserDocumentFromAuth = async (
 ) => {
 	if (!userAuth) return;
 	const userDocRef = doc(db, 'users', userAuth.uid);
-	console.log(userDocRef);
-	const userSnapshot = await getDoc(userDocRef); // already pointing to a specific place in a collection
-	console.log(userSnapshot);
-	console.log(userSnapshot.exists());
+	//console.log(userDocRef);
+	
+    const userSnapshot = await getDoc(userDocRef); // already pointing to a specific place in a collection
+	// console.log(userSnapshot);
+	// console.log(userSnapshot.exists());
 
 	// first check if user data exists
 	// if not exists, create the document with the data from user in my collection using userSnapshot
@@ -89,3 +93,10 @@ export const signInAuthUserWithEmailAndPassword = async (email, password) => {
 };
 
 export const signOutUser = async () => signOut(auth); // return the promise of whatever signOut returns to us
+
+// observer listener
+// return back whatever get back from onAuthStateChanged()
+export const onAuthStateChangedListener = (callback) => {
+	onAuthStateChanged(auth, callback); // open listener, always waiting to see whether auth states are changing
+	// auth, some callback that you want to call every time the auth state changes
+};
