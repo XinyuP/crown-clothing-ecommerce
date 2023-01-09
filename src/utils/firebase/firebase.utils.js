@@ -15,7 +15,14 @@ import {
 
 // doc - get the document instance
 // getDoc/setDoc - access the data on the document
-import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
+import {
+	getFirestore,
+	doc,
+	getDoc,
+	setDoc,
+	collection,
+	writeBatch,
+} from 'firebase/firestore';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -46,6 +53,22 @@ export const signInWithGoogleRedirect = () =>
 // this is the database we are going to pass, it is directly points to our database inside of console
 export const db = getFirestore();
 
+export const addCollectionAndDocuments = async (
+	collectionKey,
+	objectsToAdd
+) => {
+	const collectionRef = collection(db, collectionKey);
+	const batch = writeBatch(db);
+
+	objectsToAdd.forEach((object) => {
+		const docRef = doc(collectionRef, object.title.toLowerCase());
+		batch.set(docRef, object);
+	});
+
+	await batch.commit();
+	console.log('done');
+};
+
 export const createUserDocumentFromAuth = async (
 	userAuth,
 	additionalInformation
@@ -53,8 +76,8 @@ export const createUserDocumentFromAuth = async (
 	if (!userAuth) return;
 	const userDocRef = doc(db, 'users', userAuth.uid);
 	//console.log(userDocRef);
-	
-    const userSnapshot = await getDoc(userDocRef); // already pointing to a specific place in a collection
+
+	const userSnapshot = await getDoc(userDocRef); // already pointing to a specific place in a collection
 	// console.log(userSnapshot);
 	// console.log(userSnapshot.exists());
 
