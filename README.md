@@ -69,3 +69,38 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 # crown-clothing-ecommerce
+
+
+
+
+
+Built a massive e-commerce application similar to Shopify using React, Redux, React Hooks, React Suspense, React Router, GraphQL, Context API, Firebase, Redux-Saga, Stripe.
+
+• Built a full stack E-commerce web application with the features of login with email/password and login with google popup, logout, signup, shopping cart, checkout page and Drop-Down Lists using React and Firebase.
+• Designed NoSQL database using Firebase to persist and process user information data, product, and shopping cart data. 
+• Utilized React(React Router, React Hooks including Context API) to manage state globally and make particular data available to all the components. 
+• Applied Stripe API to process transactions with credit card method.
+• Completed CI/CD pipeline for auto building and testing and deployed with Netlify. 
+
+Full stack app (MERN stack), using Firebase.
+
+- React Router
+- Redux
+- Redux Saga
+- Asynchronous Redux
+- React Hooks
+- Context API
+- React Suspense + React Lazy
+- Firebase
+- Stripe API
+- Styled-Components
+- GraphQL
+- Apollo
+- PWAs
+- React Performance
+- React Design Patterns
+- Testing with Jest and Snapshot testing
+- React Best Practices
+- Persistance + Session Storage
+- State Normalization
+- Sass
